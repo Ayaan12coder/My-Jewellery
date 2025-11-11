@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — My Jewellery</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+body{font-family:Inter,system-ui;margin:0;background:#fdfaf4;color:#222;}
+.container{max-width:800px;margin:40px auto;padding:20px;background:#fff;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,0.08);}
+h1{font-family:Montserrat;text-align:center;color:#b8860b;}
+table{width:100%;border-collapse:collapse;margin-top:20px;}
+th,td{padding:10px 8px;border-bottom:1px solid #eee;text-align:left;}
+th{background:#faf7ef;}
+tfoot td{font-weight:700;}
+.btn{display:inline-block;background:#b8860b;color:#fff;padding:10px 18px;border-radius:10px;text-decoration:none;font-weight:600;margin-top:20px;}
+.btn:hover{background:#a17808;}
+footer{text-align:center;margin-top:30px;color:#777;font-size:13px;}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Checkout</h1>
+  <div id="cartSummary"></div>
+  <a href="#" class="btn" id="placeOrder">Place Order</a>
+</div>
+<footer>© 2025 My Jewellery — Secure checkout demo.</footer>
+
+<script>
+const cart=JSON.parse(localStorage.getItem('cart')||'{}');
+const products=[
+  {id:1,title:"Pearl & Gold Pendant",price:129},
+  {id:2,title:"Emerald Statement Necklace",price:189},
+  {id:3,title:"Classic Gold Chain",price:149},
+  {id:4,title:"Heart Pendant Necklace",price:99}
+];
+const cartSummary=document.getElementById('cartSummary');
+if(Object.keys(cart).length===0){
+  cartSummary.innerHTML='<p>Your cart is empty. <a href="necklaces.html">Continue shopping</a>.</p>';
+}else{
+  let total=0;
+  let html='<table><tr><th>Item</th><th>Qty</th><th>Price</th><th>Subtotal</th></tr>';
+  for(const id in cart){
+    const p=products.find(x=>x.id==id);
+    if(!p)continue;
+    const qty=cart[id];
+    const sub=p.price*qty;
+    total+=sub;
+    html+=`<tr><td>${p.title}</td><td>${qty}</td><td>$${p.price}</td><td>$${sub}</td></tr>`;
+  }
+  html+=`<tfoot><tr><td colspan="3">Total</td><td>$${total}</td></tr></tfoot></table>`;
+  cartSummary.innerHTML=html;
+}
+document.getElementById('placeOrder').onclick=e=>{
+  e.preventDefault();
+  alert('Thank you for your purchase! (Demo only)');
+  localStorage.removeItem('cart');
+  location.href='index.html';
+};
+</script>
+</body>
+</html>
